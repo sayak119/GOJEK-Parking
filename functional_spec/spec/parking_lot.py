@@ -4,8 +4,10 @@
 import os
 import pickle
 import argparse
-from functional_spec.setup import clear_tmp_file
+import shlex
 import sys
+from functional_spec.spec.setup import clear_tmp_file
+
 
 class ParkingLot:
     """
@@ -89,6 +91,19 @@ class ParkingLot:
         self.pickle.operation_value = self.operation_value
 
     @property
+    def __check_manager_existance__(self):
+        """
+        check if manager object exists for
+        self otherwise through an error and
+        halt the execution
+        """
+        if self.manager is not None:
+            pass
+        else:
+            print("No parkinglot exists,  Please create a parking lot first")
+            sys.exit()
+
+    @property
     def __run_plot_commands__(self):
         """
         Property used to run those command
@@ -98,6 +113,7 @@ class ParkingLot:
         to store the parking_lot instance
         """
         if self.command == "park":
+            self.__check_manager_existance__
             if len(self.extra_arguments) >= 2:
                 # if colour is specified with the vehicle
                 # registration number
@@ -108,17 +124,22 @@ class ParkingLot:
                 self.pickle.manager.allot_one_plot(self.operation_value, None)
             self.__dump_data_to_pickle__
         elif self.command == "leave":
+            self.__check_manager_existance__
             self.manager.clear_one_plot(self.operation_value)
             self.__dump_data_to_pickle__
-        elif self.command == "parking_lot_status":
+        elif self.command == "status":
+            self.__check_manager_existance__
             self.manager.status()
         elif self.command == "registration_numbers_for_cars_with_colour":
+            self.__check_manager_existance__
             self.manager.get_registration_number_of_vehicle_with_colour(self.operation_value)
         elif self.command == "slot_numbers_for_cars_with_colour":
+            self.__check_manager_existance__
             self.manager.get_slot_number_for_cars_with_colour(self.operation_value)
         elif self.command == "slot_number_for_registration_number":
+            self.__check_manager_existance__
             self.manager.get_slot_number_for_registration_number(self.operation_value)
-        elif self.command == "quit":
+        elif self.command == "exit":
             clear_tmp_file()
         else:
             pass
@@ -143,7 +164,7 @@ class ParkingLot:
         elif self.command == "leave":
             self.pickle.manager.clear_one_plot(self.operation_value)
             self.__dump_data_to_pickle__
-        elif self.command == "parking_lot_status":
+        elif self.command == "status":
             self.pickle.manager.status()
         elif self.command == "registration_numbers_for_cars_with_colour":
             self.pickle.manager.get_registration_number_of_vehicle_with_colour(self.operation_value)
@@ -151,7 +172,7 @@ class ParkingLot:
             self.pickle.manager.get_slot_number_for_cars_with_colour(self.operation_value)
         elif self.command == "slot_number_for_registration_number":
             self.pickle.manager.get_slot_number_for_registration_number(self.operation_value)
-        elif self.command == "quit":
+        elif self.command == "exit":
             clear_tmp_file()
         else:
             pass
@@ -172,6 +193,7 @@ class ParkingLot:
             self.manager = ParkingLotManager(**{'size':int(self.operation_value),
                                                 'empty':set(range(1, int(self.operation_value) + 1)),
                                                 'consumed':set()})
+            print("creating parking lot with %s slots" % (int(self.operation_value)))
             self.__dump_data_to_pickle__
         elif self.pickle is not None:
             # if pickle is not None
@@ -203,7 +225,8 @@ class ParkingLotManager:
         values supplied to the manager instance
         """
         if self.size < 1:
-            raise ValueError("size of parking plot should be grater than 0")
+            print("size of parking plot should be grater than 0")
+            sys.exit()
         else:
             pass
 
@@ -213,10 +236,10 @@ class ParkingLotManager:
         property_used_get the nearest
         empty lot for parking a new vehicle
         """
-        if len(empty) > 0:
-            return self.empty[0]
+        if len(self.empty) > 0:
+            return sorted(self.empty)[0]
         else:
-            raise Exception("overflowed")
+            print("Parking lot is already empty")
 
 
     def clear_one_plot(self, plot_index):
@@ -225,10 +248,17 @@ class ParkingLotManager:
         when the car leaves.
         """
         if len(self.consumed) == 0:
-            raise Exception("overflow")
+            print("Parking lot is already empty")
         else:
-            self.consumed.discard(plot_index)
+            try:
+                print("consumed is %s" % self.consumed)
+                self.consumed.remove(int(plot_index))
+            except KeyError:
+                print("lot number %s doesn't exist" % plot_index)
+                sys.exit()
+            self.empty.add(int(plot_index))
             self.plot.pop(str(plot_index), None)
+            print("slot number %s is free" % plot_index)
 
 
     def allot_one_plot(self, registration_number, colour):
@@ -242,24 +272,30 @@ class ParkingLotManager:
             self.plot[str(1)] = Vehicle(registration_number, colour)
             print("Alloting parking plot number: 1")
         elif len(self.consumed) == self.size:
-            raise Exception("overflowed")
+            print("Sorry, parking lot is full")
         else:
             nearest_empty_plot = sorted(self.empty)[0]
             self.empty.remove(nearest_empty_plot)
+            self.consumed.add(nearest_empty_plot)
             self.plot[str(nearest_empty_plot)] = Vehicle(registration_number, colour)
-            print("Alloting parking plot number: %s" % nearest_empty_plot)
+            print("Alloting parking lot number: %s" % nearest_empty_plot)
 
     def get_registration_number_of_vehicle_with_colour(self, colour):
         """
         Method used to find the registration number using the color
         of the vehicle
         """
-        print("Registration Number\t colour")
-        for key in self.plot.keys():
+        registration_numbers = list()
+        for key in sorted(self.plot.keys()):
             if self.plot[key].colour == colour:
-                print("%s\t\t\t%s" % (self.plot[key].registration_number, colour))
+                registration_numbers.append(self.plot[key].registration_number)
             else:
                 continue
+        if len(registration_numbers) > 0:
+            print(*registration_numbers, sep=", ")
+        else:
+            print("Not found")
+            
 
 
     def get_slot_number_for_cars_with_colour(self, colour):
@@ -267,12 +303,16 @@ class ParkingLotManager:
         method used to get the slot number using the
         vehicle colour
         """
-        print("Slot Number\t colour")
+        slot_number_list = list()
         for key in self.plot.keys():
             if self.plot[key].colour == colour:
-                print("%s\t\t %s" % (key, colour))
+                slot_number_list.append(key)
             else:
                 continue
+        if len(slot_number_list) > 0:
+            print(*slot_number_list, sep=", ")
+        else:
+            print("Not Found")
 
 
     def get_slot_number_for_registration_number(self, registration_number):
@@ -281,12 +321,14 @@ class ParkingLotManager:
         of the vehicle with provided registration
         number.
         """
-        print("Slot Number\t Colour")
         for key in self.plot.keys():
             if self.plot[key].registration_number == registration_number:
-                print("%s\t\t %s" % (key, registration_number))
+                print(key)
+                break
             else:
                 continue
+        else:
+            print("Not Found")
 
 
     def status(self):
@@ -296,7 +338,7 @@ class ParkingLotManager:
         """
         print("slot number\t Registration number\t color")
         for key in self.plot.keys():
-            print("%s\t\t%s\t\t\t%s" %(key, self.plot.get(key).registration_number, self.plot.get(key).colour))
+            print("%s\t\t%s\t\t\t%s" % (key, self.plot.get(key).registration_number, self.plot.get(key).colour))
 
 
 class Vehicle:
@@ -317,7 +359,8 @@ class Vehicle:
         registration number
         """
         if self.registration_number is None:
-            raise Exception("Registraiton Number is required")
+            print("Registraiton Number is required")
+            sys.exit()
         else:
             pass
 
@@ -327,24 +370,102 @@ class Vehicle:
                 'registration_number': self.registration_number}
 
 
-if __name__ == "__main__":
-    # defining parser for this file
-    # in order to use it using command line
-    # arguments
-    parser = argparse.ArgumentParser(description="Parkinglot commandline")
-    parser.add_argument("command",
-                        metavar='Command',
-                        type=str,
-                        choices=['create_parking_lot', 'park', 'prking_lot_status', 'leave',
-                                 'registration_numbers_for_cars_with_colour',
-                                 "slot_numbers_for_cars_with_colour",
-                                 "slot_number_for_registration_number",
-                                 "quit"],
-                        help="command to operate parkinglot")
-    parser.add_argument('extra_arguments',
-                        action='store',
-                        nargs=argparse.REMAINDER)
-    args = parser.parse_args()
+class CommandFileParser:
+    """
+    class used used to parse
+    parking_lot command file.
+    and validate it before execution
+    """
 
-    # initiate parking lot class instance
-    parking_lot = ParkingLot(**vars(args))
+    def __init__(self, file_path, *args, **kwargs):
+        self.file_path = file_path
+        
+        # lifecycle method begins
+        self.__validate_path__
+        self.__validate_file_type__
+        self.__setup_argument_parser__
+        self.__exec_file_commands__
+
+
+    @property
+    def __validate_path__(self):
+        """
+        check if a file exists at the file path
+        otherwise raise a warning.
+        """
+        if os.path.exists(self.file_path):
+            pass
+        else:
+            print("Error: No file Exists at path %s" % self.file_path)
+            sys.exit()
+
+
+    @property
+    def __validate_file_type__(self):
+        """
+        Validate file of type
+        .txt is only allowed as input_file
+        """
+        if self.file_path.split('.')[-1] == 'txt':
+            pass
+        else:
+            print("Error: file extension is not .txt")
+            sys.exit()
+
+
+    @property
+    def __setup_argument_parser__(self):
+        """
+        property used to create a argument parser
+        which will be used to parse each line in the file
+        into an array of command line arguments.
+        """
+        self.parser = argparse.ArgumentParser(description="Parkinglot commandline")
+        self.parser.add_argument("command",
+                                 metavar='Command',
+                                 type=str,
+                                 choices=['create_parking_lot',
+                                          'park',
+                                          'status',
+                                          'leave',
+                                          'registration_numbers_for_cars_with_colour',
+                                          "slot_numbers_for_cars_with_colour",
+                                          "slot_number_for_registration_number",
+                                          "exit"],
+                                 help="command to operate parkinglot")
+        self.parser.add_argument('extra_arguments',
+                                 action='store',
+                                 nargs=argparse.REMAINDER)
+
+
+    @property
+    def __exec_file_commands__(self):
+        """
+        property used to read the
+        the file containing the commnads
+        """
+        with open(self.file_path, 'r') as command_file:
+            args_list = list()
+            for line in command_file:
+                args = self.parser.parse_args(shlex.split(line))
+                parking_plot = ParkingLot(**vars(args))
+            clear_tmp_file()
+
+
+if __name__ == "__main__":
+    """
+    when this module is run
+    as a standlone file. It can accept
+    a file 
+    """
+    if len(sys.argv) > 1:
+        parser = argparse.ArgumentParser(description="parking_lot command line used to accept file_path as Input")
+        parser.add_argument("file_path",
+                            metavar="file_path",
+                            type=str,
+                            help="file of parking lot command file, Input file should be in .txt format with valid commands seperated by \n")
+        args = parser.parse_args()
+        CommandFileParser(**vars(args))
+    else:
+        clear_tmp_file
+        
