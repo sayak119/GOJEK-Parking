@@ -11,7 +11,8 @@ from functional_spec.spec.parking_lot import ParkingLot
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="command to park the vehicle in already created parking lot")
+    parser = argparse.ArgumentParser(
+        description="command to park the vehicle in already created parking lot")
     parser.add_argument("registration_number",
                         metavar="registration_number",
                         type=str,

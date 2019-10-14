@@ -8,11 +8,12 @@ lot with a specific colour
 """
 
 import argparse
-from parking_lot import ParkingLot
+from functional_spec.spec.parking_lot import ParkingLot
 
 
 if __name__ == "__main__":
-    parser = arparse.ArgumentParser(desription="find the registration number of the cars parked in parkin lot using its colour")
+    parser = argparse.ArgumentParser(
+        description="find the registration number of the cars parked in parkin lot using its colour")
     parser.add_argument("colour",
                         metavar="colour",
                         type=str,
