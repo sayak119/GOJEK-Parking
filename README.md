@@ -1,8 +1,10 @@
 # GOJEK-Parking
-GOJEK Parking Assignment to check OOPS concept
+GOJEK Parking Assignment to check OOPS concept.
+
+## Assumptions made
 
 > Parking_lot is a linux CLI. More information is present in the docs folder.
-# commands defined by parking_lot package
+# Commands defined by parking_lot package
 ```sh
 create_parking_lot <parking_lot_size>
 park <registration_number> <colour>
@@ -18,7 +20,7 @@ registration_numbers_for_cars_with_colour <colour>
 > for better understanding we are using the default repository clone path.
 
 
-#### setup virtual environment for project to run
+#### Setup virtual environment for project to run
 > inside your the home directory run the following commnads
 ```sh
 $ virtualenv -p python3 parking_plot_env # to create a virtualenv directory named parking_plot_env
@@ -28,17 +30,17 @@ $ git clone https://github.com/sayak119/GOJEK-Parking.git
 $ cd parking_plot
 ```
 
-# building the code
+# Building the code
 > we are assuming the virtual environment created is activated
 > and you are in project root, as left by above commnads
 ```sh
-$ source bin/setup.sh # loads required environment variables and begin build process 
+$ source bin/setup.sh # loads required environment variables and begin build process
 ```
 > building process will create a binary executable at path bin/parking_plot inside project root
 
 
-### usage
-> Assumption: 
+### Usage
+> Assumption:
 - We are assuming that you have sucessfuly build the source code as sepcified above
 ```sh
 $ create_parkinig_lot 5 # to create a parking_lot of size 5.
@@ -53,7 +55,7 @@ $ park HP55B-8789 black # park a car with both registration_number and colour.
 $ status # to view status of the parking_lot
 #[output]
 # sLot number    registaration number  colour
-# 1              HP55a-3161            None 
+# 1              HP55a-3161            None
 # 2              HP55B-8789            black
 
 $ leave 2 # to laeave the lot number 2
@@ -88,13 +90,13 @@ $ # Search is case insensitive
 $ create_parking_lot 2 # creates a parking lot with 2 slots
 # [output] creating parking plot with 2 slots
 
-$ create_parking_lot 2 # ammends to the previous empty slots 
+$ create_parking_lot 2 # ammends to the previous empty slots
 # [output] creating parking plot with 4 slots
 
 
 ```
 
-### working with file input
+### Working with file input
 ```
 $ source bin/setup.sh
 $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
@@ -145,6 +147,4 @@ $ quit # this will clear all the pickled files hence removing all entries and an
 
 
 ```
-### License
- > MIT, Licence is subject to client's specification and requirements, clients have complete right to update the licence once product is delivered to them completely.
- > before project completion we will use the same licence as mentioned here.
+### MIT License
