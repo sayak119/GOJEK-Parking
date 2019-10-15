@@ -1,7 +1,7 @@
 # GOJEK-Parking
 GOJEK Parking Assignment to check OOPS concept
 
-> Parking_lot is a linux CLU, used to create a test the parking lot funcationality.
+> Parking_lot is a linux CLI, used to create a test the parking lot funcationality.
 # commands defined by parking_lot package
 ```sh
 create_parking_lot <parking_lot_size>
