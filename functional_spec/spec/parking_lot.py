@@ -249,7 +249,7 @@ class ParkingLotManager:
     def __validate_unique_check__(self, registration_number, colour):
         registration_numbers = list()
         for key in sorted(self.plot.keys()):
-            if self.plot[key].colour.lower() == colour.lower():
+            if self.plot[key].registration_number == registration_number:
                 registration_numbers.append(self.plot[key].registration_number)
             else:
                 continue
@@ -332,7 +332,7 @@ class ParkingLotManager:
         """
         slot_number_list = list()
         for key in self.plot.keys():
-            if self.plot[key].colour == colour:
+            if self.plot[key].colour.lower() == colour.lower():
                 slot_number_list.append(key)
             else:
                 continue
@@ -362,7 +362,7 @@ class ParkingLotManager:
         of the Parking plot in tabular form.
         """
         print("slot number\t Registration number\t\t color")
-        for key in self.plot.keys():
+        for key in sorted(self.plot.keys()):
             print("%s\t\t\t%s\t\t\t %s" % (key, self.plot.get(
                 key).registration_number, self.plot.get(key).colour))
 
@@ -492,3 +492,4 @@ if __name__ == "__main__":
         CommandFileParser(**vars(args))
     else:
         clear_tmp_file
+        print(registration_number)
