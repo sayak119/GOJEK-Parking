@@ -61,6 +61,12 @@ class TestParkingLotInternals(unittest.TestCase):
                                  'Sorry, parking lot is full')
 
     def test_create_parking_lot(self):
+        """
+        method used to test the creation of
+        a parking lot, by matching the output,
+        the CLI should return on successful,
+        parking lot creation.
+        """
         self.tearDown()
         out = StringIO()
         sys.stdout = out
@@ -143,6 +149,11 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(1, 1)
 
     def test_check_unique_entries_for_parking(self):
+        """
+        this method is used to check, 
+        that the CLI only accepts unique entries,
+        when parking his vehicles.
+        """
         self.tearDown()
         self.plot_size = 2
         out = StringIO()
@@ -170,6 +181,11 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(1, 1)
 
     def test_status(self):
+        """
+        this method is used to test whether
+        the status command outputs all the
+        entries inside the parking lot.
+        """
         self.tearDown()
         self.plot_size = 2
         out = StringIO()
@@ -199,6 +215,11 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(1, 1)
 
     def test_plot_extension(self):
+        """
+        this method is used to check whether a user
+        is able to extend the parking lot by `n`,
+        with the same create_parking_lot command.
+        """
         self.tearDown()
         self.plot_size = 2
         out = StringIO()
@@ -213,6 +234,11 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(1, 1)
 
     def test_leave(self):
+        """
+        this method is used to test `leave` functionality,
+        by creating a parking lot, parking a car and leaving a plot,
+        successfully.
+        """
         self.tearDown()
         self.plot_size = 2
 
@@ -236,6 +262,12 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(out.getvalue().strip(), "slot number 1 is free")
 
     def test_negative_leave(self):
+        """
+        this method is a negative test hence it,
+        probes the CLI with wrongful input such as,
+        leaving the same parking lot over and over again,
+        and seeing that the CLI handles the input gracefuly.
+        """
         out = StringIO()
         sys.stdout = out
         self.parking_lot = ParkingLot(**{"command": "create_parking_lot",
@@ -258,6 +290,12 @@ class TestParkingLotInternals(unittest.TestCase):
             self.assertEqual(out.getvalue().strip(), "Parking lot is already empty")
 
     def test_case_insensitive_search(self):
+        """
+        This method is used to test whether, when searching
+        for a car with colour, it returns the cars, all matching
+        the colour mentioned by the user, regardless of their
+        casing.
+        """
         out = StringIO()
         sys.stdout = out
         self.parking_lot = ParkingLot(**{"command": "create_parking_lot",

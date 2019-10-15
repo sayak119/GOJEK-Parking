@@ -1,7 +1,7 @@
 # GOJEK-Parking
 GOJEK Parking Assignment to check OOPS concept
 
-> Parking_lot is a linux CLI, used to create a test the parking lot funcationality.
+> Parking_lot is a linux CLI. More information is present in the docs folder.
 # commands defined by parking_lot package
 ```sh
 create_parking_lot <parking_lot_size>
@@ -45,10 +45,10 @@ $ create_parkinig_lot 5 # to create a parking_lot of size 5.
 #[output] creating parking lot with 5 slots
 
 $ park HP55a-3161 # park a car with registration number only.
-#[output] Alloting parking plot number 1
+#[output] Allocated slot number number 1
 
 $ park HP55B-8789 black # park a car with both registration_number and colour.
-#[output] Alloting parking plot number: 2
+#[output] Allocated slot number number: 2
 
 $ status # to view status of the parking_lot
 #[output]
@@ -66,7 +66,7 @@ $ status
 # 1              HP55a-3161           None
 
 $ park pb58-5858 red # park a new car to the parking_lot
-#[output] Alloting parking plot number: 2
+#[output] Allocated slot number number: 2
 
 $ park pb58-5858 red # validation check, only unique registration_number will enter
 #[output] ar with this registeration number already exists pb58-5858
@@ -101,12 +101,12 @@ $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 
 # [output]
 #creating parking lot with 6 slots
-#Alloting parking plot number: 1
-#Alloting parking lot number: 2
-#Alloting parking lot number: 3
-#Alloting parking lot number: 4
-#Alloting parking lot number: 5
-#Alloting parking lot number: 6
+#Allocated slot number number: 1
+#Allocated slot number: 2
+#Allocated slot number: 3
+#Allocated slot number: 4
+#Allocated slot number: 5
+#Allocated slot number: 6
 #consumed is {1, 2, 3, 4, 5, 6}
 #slot number 4 is free
 #slot number      Registration number     color
@@ -115,7 +115,7 @@ $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 #1               KA-01-HH-1234                   White
 #5               KA-01-HH-2701                   Blue
 #2               KA-01-HH-9999                   White
-#Alloting parking lot number: 4
+#Allocated slot number: 4
 #Sorry, parking lot is full
 #KA-01-HH-1234, KA-01-HH-9999, KA-01-P-333
 #1, 4, 2
