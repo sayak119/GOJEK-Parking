@@ -246,6 +246,19 @@ class ParkingLotManager:
         else:
             pass
 
+    def __validate_unique_check__(self, registration_number, colour):
+        registration_numbers = list()
+        for key in sorted(self.plot.keys()):
+            if self.plot[key].colour.lower() == colour.lower():
+                registration_numbers.append(self.plot[key].registration_number)
+            else:
+                continue
+        if len(registration_numbers) > 0:
+            print("Car with this registeration number already exists %s " % registration_numbers[0], sep=", ")
+            return 0
+        else:
+            return 1
+
     def get_nearest_emtpy(self):
         """
         property_used_get the nearest
@@ -278,20 +291,23 @@ class ParkingLotManager:
         Method used to allot one parking plot
         to the car when it arrives into the parking plot
         """
-        if len(self.empty) == self.size:
-            self.consumed.add(1)
-            self.empty.remove(1)
-            self.plot[str(1)] = Vehicle(registration_number, colour)
-            print("Alloting parking plot number: 1")
-        elif len(self.consumed) == self.size:
-            print("Sorry, parking lot is full")
+        if self.__validate_unique_check__(registration_number, colour):
+            if len(self.empty) == self.size:
+                self.consumed.add(1)
+                self.empty.remove(1)
+                self.plot[str(1)] = Vehicle(registration_number, colour)
+                print("Alloting parking plot number: 1")
+            elif len(self.consumed) == self.size:
+                print("Sorry, parking lot is full")
+            else:
+                nearest_empty_plot = sorted(self.empty)[0]
+                self.empty.remove(nearest_empty_plot)
+                self.consumed.add(nearest_empty_plot)
+                self.plot[str(nearest_empty_plot)] = Vehicle(
+                    registration_number, colour)
+                print("Alloting parking lot number: %s" % nearest_empty_plot)
         else:
-            nearest_empty_plot = sorted(self.empty)[0]
-            self.empty.remove(nearest_empty_plot)
-            self.consumed.add(nearest_empty_plot)
-            self.plot[str(nearest_empty_plot)] = Vehicle(
-                registration_number, colour)
-            print("Alloting parking lot number: %s" % nearest_empty_plot)
+            pass
 
     def get_registration_number_of_vehicle_with_colour(self, colour):
         """
