@@ -4,8 +4,15 @@
 import unittest
 import sys
 from io import StringIO
-from functional_spec.spec.parking_lot import ParkingLot
-from functional_spec.spec.setup import clear_tmp_file
+import os
+
+def clear_tmp_file():
+    pickle_file_path = os.path.join('/tmp', 'parking_lot')
+    if os.path.exists(os.path.join(pickle_file_path, 'parking_lot.pickle')):
+        os.remove(os.path.join(pickle_file_path, 'parking_lot.pickle'))
+    else:
+        pass
+
 
 class TestParkingLotInternals(unittest.TestCase):
     """
@@ -233,6 +240,49 @@ class TestParkingLotInternals(unittest.TestCase):
         sys.stdout = sys.__stdout__
         if out.getvalue().strip():
             self.assertEqual(out.getvalue().strip(), "slot number 1 is free")
+
+    def test_negative_leave(self):
+        out = StringIO()
+        sys.stdout = out
+        self.parking_lot = ParkingLot(**{"command": "create_parking_lot",
+                                         "extra_arguments": [int(5)]})
+        sys.stdout = sys.__stdout__
+
+        if "creating parking plot with" in out.getvalue().strip():
+            self.assertEqual(1, 1)
+
+        self.parking_lot = ParkingLot(**{"command": "park",
+                                         "extra_arguments": ["hh-22", "white"]})
+        self.parking_lot = ParkingLot(**{"command": "leave",
+                                         "extra_arguments": [int(1)]})
+        out = StringIO()
+        sys.stdout = out
+        self.parking_lot = ParkingLot(**{"command": "leave",
+                                         "extra_arguments": [int(1)]})
+        sys.stdout = sys.__stdout__
+        if out.getvalue().strip():
+            self.assertEqual(out.getvalue().strip(), "Parking lot is already empty")
+
+
+    def test_case_insensitive_search(self):
+        out = StringIO()
+        sys.stdout = out
+        self.parking_lot = ParkingLot(**{"command": "create_parking_lot",
+                                         "extra_arguments": [int(5)]})
+        sys.stdout = sys.__stdout__
+
+        if "creating parking plot with" in out.getvalue().strip():
+            self.assertEqual(1, 1)
+
+        self.parking_lot = ParkingLot(**{"command": "park",
+                                         "extra_arguments": ["KK-WW", "white"]})
+        out = StringIO()
+        sys.stdout = out
+        self.parking_lot = ParkingLot(**{"command": "park",
+                                         "extra_Arguments": ["kk-XX", "White"]})
+        sys.stdout = sys.__stdout__
+        if out.getvalue().strip():
+            self.assertEqual(str(out.getvalue().strip()), "1, 2")
 
     def tearDown(self):
         """
