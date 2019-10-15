@@ -1,9 +1,8 @@
-# GOJEK-Parking
+# GOJEK-Parking (Sayak Kundu)
 GOJEK Parking Assignment to check OOPS concept.
 
-## Assumptions made
 
-> Parking_lot is a linux CLI. More information is present in the docs folder.
+> GOJEK-Parking is a linux CLI. More information is present in the docs folder.
 # Commands defined by parking_lot package
 ```sh
 create_parking_lot <parking_lot_size>
@@ -13,7 +12,16 @@ status
 stot_numbers_for_cars_with_colour <colour>
 slot_number_for_registration_number <registration_number>
 registration_numbers_for_cars_with_colour <colour>
+quit
 ```
+
+## Assumptions made
+* We used **quit** instead of **exit** command because the exit command is a default command to exit the terminal.
+* **create_parking_lot** command when ran one after the other, keeps adding new slots.
+* This project is made for python3 as python2 is going to become obsolete.
+* The vehicle colour is case insensitive but the vehicle registration number is not.
+* After **quit**, you can't run any other command until and unless you create a parking lot first.
+
 
 ### Installation
 > we are making assumption that you have already forked the project and have a clone ready repository setup for you
@@ -126,6 +134,7 @@ $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 
 ```
 ### Check linting
+* Used Flake8 for linting as linting is one of the most important part in maintaining large code bases.
 ```
 To check any formatting errors simply run check_linting.sh inside bin directory, this should solve the issues as well.
 $ bin/check_linting.sh
@@ -147,4 +156,6 @@ $ quit # this will clear all the pickled files hence removing all entries and an
 
 
 ```
-### MIT License
+### License
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
