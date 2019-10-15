@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
 # -*- coding:utf-8 -*-
 
 import os
@@ -18,7 +18,6 @@ class ParkingLot:
 
     def __init__(self, *args, **kwargs):
         # instance variable initialization
-        self.__status__ = None
         self.command = kwargs.get('command')
         self.extra_arguments = kwargs.get('extra_arguments')
         self.pickle_file_dir = os.path.join('/tmp', 'parking_lot')
@@ -106,8 +105,7 @@ class ParkingLot:
         if self.manager is not None:
             pass
         else:
-            self.__status__ = "No parkinglot exists,  Please create a parking lot first"
-            print(self.__status__)
+            print("No parkinglot exists,  Please create a parking lot first")
             sys.exit()
 
     @property
@@ -209,9 +207,8 @@ class ParkingLot:
                                                 'empty': set(range(1,
                                                                    int(self.operation_value) + 1)),
                                                 'consumed': set()})
-            self.satus = "creating parking lot with %s slots" % (
-                int(self.operation_value))
-            print(self.__status__)
+            print("creating parking lot with %s slots" %
+                  (int(self.operation_value)))
             self.__dump_data_to_pickle__
         elif self.pickle is not None:
             # if pickle is not None
@@ -231,7 +228,6 @@ class ParkingLotManager:
     """
 
     def __init__(self, *args, **kwargs):
-        self.__status__ = None
         self.size = kwargs.get('size')
         self.consumed = kwargs.get('consumed')
         self.empty = kwargs.get('empty')
@@ -245,8 +241,7 @@ class ParkingLotManager:
         values supplied to the manager instance
         """
         if self.size < 1:
-            self.__status__ = "size of parking plot should be grater than 0"
-            print(self.__status__)
+            print("size of parking plot should be grater than 0")
             sys.exit()
         else:
             pass
@@ -259,8 +254,7 @@ class ParkingLotManager:
         if len(self.empty) > 0:
             return sorted(self.empty)[0]
         else:
-            self.__status__ = "Parking lot is already empty"
-            print(self.__status__)
+            print("Parking lot is already empty")
 
     def clear_one_plot(self, plot_index):
         """
@@ -268,19 +262,16 @@ class ParkingLotManager:
         when the car leaves.
         """
         if len(self.consumed) == 0:
-            self.__status__ = "Parking lot is already empty"
-            print(self.__status__)
+            print("Parking lot is already empty")
         else:
             try:
                 self.consumed.remove(int(plot_index))
             except KeyError:
-                self.__status__ = "lot number %s doesn't exist" % plot_index
-                print(self.__status__)
+                print("lot number %s doesn't exist" % plot_index)
                 sys.exit()
             self.empty.add(int(plot_index))
             self.plot.pop(str(plot_index), None)
-            self.__status__ = "slot number %s is free" % plot_index
-            print(self.__status__)
+            print("slot number %s is free" % plot_index)
 
     def allot_one_plot(self, registration_number, colour):
         """
@@ -291,19 +282,16 @@ class ParkingLotManager:
             self.consumed.add(1)
             self.empty.remove(1)
             self.plot[str(1)] = Vehicle(registration_number, colour)
-            self.__status__ = "Alloting parking plot number: 1"
-            print(self.__status__)
+            print("Alloting parking plot number: 1")
         elif len(self.consumed) == self.size:
-            self.__status__ = "Sorry, parking lot is full"
-            print(self.__status__)
+            print("Sorry, parking lot is full")
         else:
             nearest_empty_plot = sorted(self.empty)[0]
             self.empty.remove(nearest_empty_plot)
             self.consumed.add(nearest_empty_plot)
             self.plot[str(nearest_empty_plot)] = Vehicle(
                 registration_number, colour)
-            self.__status__ = "Alloting parking lot number: %s" % nearest_empty_plot
-            print(self.__status__)
+            print("Alloting parking lot number: %s" % nearest_empty_plot)
 
     def get_registration_number_of_vehicle_with_colour(self, colour):
         """
@@ -312,16 +300,14 @@ class ParkingLotManager:
         """
         registration_numbers = list()
         for key in sorted(self.plot.keys()):
-            if self.plot[key].colour == colour:
+            if self.plot[key].colour.lower() == colour.lower():
                 registration_numbers.append(self.plot[key].registration_number)
             else:
                 continue
         if len(registration_numbers) > 0:
-            self.__status__ = registration_numbers
-            print(*self.__status__, sep=", ")
+            print(*registration_numbers, sep=", ")
         else:
-            self.__status__ = "Not found"
-            print(self.__status__)
+            print("Not found")
 
     def get_slot_number_for_cars_with_colour(self, colour):
         """
@@ -335,11 +321,9 @@ class ParkingLotManager:
             else:
                 continue
         if len(slot_number_list) > 0:
-            self.__status__ = slot_number_list
-            print(*self.__status__, sep=", ")
+            print(*slot_number_list, sep=", ")
         else:
-            self.__status__ = "Not found"
-            print(self.__status__)
+            print("Not Found")
 
     def get_slot_number_for_registration_number(self, registration_number):
         """
@@ -349,23 +333,21 @@ class ParkingLotManager:
         """
         for key in self.plot.keys():
             if self.plot[key].registration_number == registration_number:
-                self.__status__ = key
-                print(self.__status__)
+                print(key)
                 break
             else:
                 continue
         else:
-            self.__status__
-            print(self.__status__)
+            print("Not Found")
 
     def status(self):
         """
         Method used to print the representation
         of the Parking plot in tabular form.
         """
-        print("slot number\t Registration number\t color")
+        print("slot number\t Registration number\t\t color")
         for key in self.plot.keys():
-            print("%s\t\t%s\t\t\t%s" % (key, self.plot.get(
+            print("%s\t\t\t%s\t\t\t %s" % (key, self.plot.get(
                 key).registration_number, self.plot.get(key).colour))
 
 
@@ -377,7 +359,6 @@ class Vehicle:
     """
 
     def __init__(self, registration_number, colour):
-        self.__status__ = None
         self.colour = colour
         self.registration_number = registration_number
         self.__validate__
@@ -389,8 +370,7 @@ class Vehicle:
         registration number
         """
         if self.registration_number is None:
-            self.__status__ = "Registraiton Number is required"
-            print(self.__status__)
+            print("Registraiton Number is required")
             sys.exit()
         else:
             pass
