@@ -206,7 +206,7 @@ class ParkingLot:
                 self.pickle.manager.empty = self.pickle.manager.empty.union(set([x for x in range(
                     self.pickle.manager.size + 1, self.pickle.manager.size + 1 + self.operation_value)]))  # NOQA
                 self.pickle.manager.size = self.pickle.manager.size + int(self.operation_value)
-                print("creating parking plot with %s slots" %
+                print("Created a parking lot with %s slots" %
                       len(self.pickle.manager.empty))
                 self.__dump_data_to_pickle__
             else:
@@ -215,7 +215,7 @@ class ParkingLot:
                                                     'empty': set(range(1,
                                                                        int(self.operation_value) + 1)),  # NOQA
                                                     'consumed': set()})  # NOQA
-                print("creating parking plot with %s slots" %
+                print("Created a parking lot with %s slots" %
                       (int(self.operation_value)))
                 self.__dump_data_to_pickle__
         elif self.pickle is not None:
@@ -305,7 +305,7 @@ class ParkingLotManager:
                 self.consumed.add(1)
                 self.empty.remove(1)
                 self.plot[str(1)] = Vehicle(registration_number, colour)
-                print("Alloting parking plot number: 1")
+                print("Allocated slot number: 1")
             elif len(self.consumed) == self.size:
                 print("Sorry, parking lot is full")
             else:
@@ -314,7 +314,7 @@ class ParkingLotManager:
                 self.consumed.add(nearest_empty_plot)
                 self.plot[str(nearest_empty_plot)] = Vehicle(
                     registration_number, colour)
-                print("Alloting parking lot number: %s" % nearest_empty_plot)
+                print("Allocated slot number: %s" % nearest_empty_plot)
         else:
             pass
 

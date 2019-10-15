@@ -4,14 +4,8 @@
 import unittest
 import sys
 from io import StringIO
-import os
-
-def clear_tmp_file():
-    pickle_file_path = os.path.join('/tmp', 'parking_lot')
-    if os.path.exists(os.path.join(pickle_file_path, 'parking_lot.pickle')):
-        os.remove(os.path.join(pickle_file_path, 'parking_lot.pickle'))
-    else:
-        pass
+from functional_spec.spec.parking_lot import ParkingLot
+from functional_spec.spec.setup import clear_tmp_file
 
 
 class TestParkingLotInternals(unittest.TestCase):
@@ -47,10 +41,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                                  "extra_arguments": [int(5)]})
                 sys.stdout = sys.__stdout__
 
-                if "creating parking plot with" in out.getvalue().strip():
+                if "Created a parking lot with" in out.getvalue().strip():
                     self.assertEqual(1, 1)
                 else:
-                    self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+                    self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
                 out = StringIO()
                 sys.stdout = out
                 self.parking_lot = ParkingLot(**{"comand": "park",
@@ -74,10 +68,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
         else:
-            self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+            self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
 
     def test_leave_command(self):
         """
@@ -93,10 +87,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
         else:
-            self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+            self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
 
         self.parking_lot = ParkingLot(**{"command": "park",
                                          "extra_arguments": ["PP", "White"]})
@@ -122,10 +116,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
         else:
-            self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+            self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
 
         self.parking_lot = ParkingLot(**{"command": "park",
                                          "extra_arguments": ["HH-22-KK", "White"]})
@@ -157,10 +151,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
         else:
-            self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+            self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
 
         self.parking_lot = ParkingLot(**{"command": "park",
                                          "extra_arguments": ["NA-CQ", "red"]})
@@ -184,10 +178,10 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
         else:
-            self.assertEqual(out.getvalue().strip(), "creating parking plot with 5 slots")
+            self.assertEqual(out.getvalue().strip(), "Created a parking lot with 5 slots")
 
         out = StringIO()
         sys.stdout = out
@@ -215,7 +209,7 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(1)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
 
     def test_leave(self):
@@ -228,7 +222,7 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
 
         self.parking_lot = ParkingLot(**{"command": "park",
@@ -248,7 +242,7 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
 
         self.parking_lot = ParkingLot(**{"command": "park",
@@ -263,7 +257,6 @@ class TestParkingLotInternals(unittest.TestCase):
         if out.getvalue().strip():
             self.assertEqual(out.getvalue().strip(), "Parking lot is already empty")
 
-
     def test_case_insensitive_search(self):
         out = StringIO()
         sys.stdout = out
@@ -271,15 +264,17 @@ class TestParkingLotInternals(unittest.TestCase):
                                          "extra_arguments": [int(5)]})
         sys.stdout = sys.__stdout__
 
-        if "creating parking plot with" in out.getvalue().strip():
+        if "Created a parking lot with" in out.getvalue().strip():
             self.assertEqual(1, 1)
 
         self.parking_lot = ParkingLot(**{"command": "park",
                                          "extra_arguments": ["KK-WW", "white"]})
+        self.parking_lot = ParkingLot(**{"command": "park",
+                                         "extra_arguments": ["kk-XX", "White"]})
         out = StringIO()
         sys.stdout = out
-        self.parking_lot = ParkingLot(**{"command": "park",
-                                         "extra_Arguments": ["kk-XX", "White"]})
+        self.parking_lot = ParkingLot(**{"command": "slot_numbers_for_cars_with_colour",
+                                         "extra_arguments": ["white"]})
         sys.stdout = sys.__stdout__
         if out.getvalue().strip():
             self.assertEqual(str(out.getvalue().strip()), "1, 2")
