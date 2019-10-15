@@ -199,17 +199,24 @@ class ParkingLot:
         """
         if self.command == "create_parking_lot":
             clear_tmp_file()
-            self.pickle = None
             # we are creating a parknig log manager
             # here which is used to do all the
             # combinotirc operations on parking_plot.
-            self.manager = ParkingLotManager(**{'size': int(self.operation_value),
-                                                'empty': set(range(1,
-                                                                   int(self.operation_value) + 1)),
-                                                'consumed': set()})
-            print("creating parking lot with %s slots" %
-                  (int(self.operation_value)))
-            self.__dump_data_to_pickle__
+            if self.pickle:
+                self.pickle.manager.empty = self.pickle.manager.empty.union(set([x for x in range(self.pickle.manager.size + 1, self.pickle.manager.size + 1 + self.operation_value)]))
+                self.pickle.manager.size  = self.pickle.manager.size + int(self.operation_value)
+                print("creating parking lot with %s slots" %
+                      len(self.pickle.manager.empty))
+                self.__dump_data_to_pickle__
+            else:
+                self.pikcle = None
+                self.manager = ParkingLotManager(**{'size': int(self.operation_value),
+                                                    'empty': set(range(1,
+                                                                       int(self.operation_value) + 1)),
+                                                    'consumed': set()})
+                print("creating parking lot with %s slots" %
+                      (int(self.operation_value)))
+                self.__dump_data_to_pickle__
         elif self.pickle is not None:
             # if pickle is not None
             # it means we have already creaed
@@ -492,4 +499,3 @@ if __name__ == "__main__":
         CommandFileParser(**vars(args))
     else:
         clear_tmp_file
-        print(registration_number)
