@@ -1,6 +1,7 @@
 # GOJEK-Parking (Sayak Kundu)
 GOJEK Parking Assignment to check OOPS concept.
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
+
+[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
 > GOJEK-Parking is a linux CLI. More information is present in the docs folder.
 # Commands defined by parking_lot package
