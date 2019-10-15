@@ -150,7 +150,7 @@ class TestParkingLotInternals(unittest.TestCase):
 
     def test_check_unique_entries_for_parking(self):
         """
-        this method is used to check, 
+        this method is used to check,
         that the CLI only accepts unique entries,
         when parking his vehicles.
         """
