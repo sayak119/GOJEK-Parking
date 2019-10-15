@@ -24,7 +24,7 @@ registration_numbers_for_cars_with_colour <colour>
 $ virtualenv -p python3 parking_plot_env # to create a virtualenv directory named parking_plot_env
 $ cd parking_plot_env # to switch to parking_plot_env directory
 $ source bin/activate # to activate the virtual environment
-$ git clone https://nareshkumarjaggi@bitbucket.org/nareshkumarjaggi/parking_lot.git
+$ git clone https://github.com/sayak119/GOJEK-Parking.git
 $ cd parking_plot
 ```
 
@@ -68,7 +68,10 @@ $ status
 $ park pb58-5858 red # park a new car to the parking_lot
 #[output] Alloting parking plot number: 2
 
-$ stot_numbers_for_cars_with_colour red  # to find slot numbers of cars with color red
+$ park pb58-5858 red # validation check, only unique registration_number will enter
+#[output] ar with this registeration number already exists pb58-5858
+
+$ stot_numbers_for_cars_with_colour red  # to find slot numbers of cars with color red, also search is case insensitive
 #[output]
 # 2
 
@@ -78,8 +81,16 @@ $ slot_number_for_registration_number pb58-5858 # find slot number for registrat
 
 
 $ registration_numbers_for_cars_with_colour red # find the registration number of vehicle pared in parking plot with color red
+$ # Search is case insensitive
 # [output]
 # pb58-5858
+
+$ create_parking_lot 2 # creates a parking lot with 2 slots
+# [output] creating parking plot with 2 slots
+
+$ create_parking_lot 2 # ammends to the previous empty slots 
+# [output] creating parking plot with 4 slots
+
 
 ```
 
@@ -111,5 +122,29 @@ $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 #6
 #Not Found
 
+```
+### Check linting
+```
+To check any formatting errors simply run check_linting.sh inside bin directory, this should solve the issues as well.
+$ bin/check_linting.sh
+# [output] checking for any linting errors
+---	Display's any errors that might be there ---
+# [output] trying to fix these issues...
+# [output] checking again to see if anything was missed
+
+```
+### Tests
+```
+To run the unittests just source the setup.sh inside bin directory
+$ source bin/setup.sh
+
+```
+### Quit
+```
+$ quit # this will clear all the pickled files hence removing all entries and any saved data in context to the application
+
+
+```
+### License
  > MIT, Licence is subject to client's specification and requirements, clients have complete right to update the licence once product is delivered to them completely.
  > before project completion we will use the same licence as mentioned here.
