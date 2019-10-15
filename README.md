@@ -1,6 +1,6 @@
 # GOJEK-Parking (Sayak Kundu)
 GOJEK Parking Assignment to check OOPS concept.
-
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 
 > GOJEK-Parking is a linux CLI. More information is present in the docs folder.
 # Commands defined by parking_lot package
@@ -104,6 +104,7 @@ $ create_parking_lot 2 # ammends to the previous empty slots
 
 ```
 
+
 ### Working with file input
 ```
 $ source bin/setup.sh
@@ -133,6 +134,8 @@ $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 #Not Found
 
 ```
+
+
 ### Check linting
 * Used Flake8 for linting as linting is one of the most important part in maintaining large code bases.
 ```
@@ -142,20 +145,20 @@ $ bin/check_linting.sh
 ---	Display's any errors that might be there ---
 # [output] trying to fix these issues...
 # [output] checking again to see if anything was missed
-
 ```
+
+
 ### Tests
 ```
 To run the unittests just source the setup.sh inside bin directory
 $ source bin/setup.sh
-
 ```
+
+
 ### Quit
 ```
 $ quit # this will clear all the pickled files hence removing all entries and any saved data in context to the application
-
-
 ```
 ### License
 
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
