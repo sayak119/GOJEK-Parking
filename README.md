@@ -112,28 +112,26 @@ $ source bin/setup.sh
 $ bin/parking_lot  ./functional_spec/fixtures/file_input.txt
 
 # [output]
-#creating parking lot with 6 slots
-#Allocated slot number number: 1
+#Created a parking lot with 6 slots
+#Allocated slot number: 1
 #Allocated slot number: 2
 #Allocated slot number: 3
 #Allocated slot number: 4
 #Allocated slot number: 5
 #Allocated slot number: 6
-#consumed is {1, 2, 3, 4, 5, 6}
 #slot number 4 is free
-#slot number      Registration number     color
-#3               KA-01-BB-0001                   Black
-#6               KA-01-HH-3141                   Black
-#1               KA-01-HH-1234                   White
-#5               KA-01-HH-2701                   Blue
-#2               KA-01-HH-9999                   White
+#slot number	 Registration number		 color
+#1			KA-01-HH-1234			 White
+#2			KA-01-HH-9999			 White
+#3			KA-01-BB-0001			 Black
+#5			KA-01-HH-2701			 Blue
+#6			KA-01-HH-3141			 Black
 #Allocated slot number: 4
 #Sorry, parking lot is full
 #KA-01-HH-1234, KA-01-HH-9999, KA-01-P-333
-#1, 4, 2
+#1, 2, 4
 #6
 #Not Found
-
 ```
 
 
@@ -160,6 +158,8 @@ $ source bin/setup.sh
 ```
 $ quit # this will clear all the pickled files hence removing all entries and any saved data in context to the application
 ```
+
+
 ### License
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
