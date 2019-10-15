@@ -21,6 +21,10 @@ pyinstaller "$BASE_DIR/functional_spec/spec/slot_number_for_registration_number.
 pyinstaller "$BASE_DIR/functional_spec/spec/registration_numbers_for_cars_with_colour.py" --onefile --name "registration_numbers_for_cars_with_colour" --distpath "$FILE_DIR" --workpath "/tmp" --specpath="/tmp"
 pyinstaller "$BASE_DIR/functional_spec/spec/park.py" --onefile --name "park" --distpath "$FILE_DIR" --workpath "/tmp" --specpath="/tmp"
 pyinstaller "$BASE_DIR/functional_spec/spec/quit.py" --onefile --name "quit" --distpath "$FILE_DIR" --workpath "/tmp" --specpath="/tmp"
+pyinstaller "$BASE_DIR/functional_spec/spec/test.py" --onefile --name "run_test" --distpath "$FILE_DIR" --workpath "/tmp" --specpath="/tmp"
+
 
 # export to path
 export PATH=$FILE_DIR:$PATH
+run_test
+$BASE_DIR/bin/./check_linting.sh

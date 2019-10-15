@@ -13,7 +13,7 @@ from functional_spec.spec.parking_lot import ParkingLot
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="find the registration number of the cars parked in parkin lot using its colour")
+        description="find the registration number of the cars parked in parkin lot using its colour")  # NOQA
     parser.add_argument("registration_number",
                         metavar="registration_number",
                         type=str,

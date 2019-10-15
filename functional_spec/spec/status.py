@@ -4,8 +4,6 @@
 file used to give the leave command functionality
 for parking lot
 """
-
-import argparse
 from functional_spec.spec.parking_lot import ParkingLot
 
 if __name__ == "__main__":

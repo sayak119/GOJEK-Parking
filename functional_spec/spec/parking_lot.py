@@ -203,18 +203,19 @@ class ParkingLot:
             # here which is used to do all the
             # combinotirc operations on parking_plot.
             if self.pickle:
-                self.pickle.manager.empty = self.pickle.manager.empty.union(set([x for x in range(self.pickle.manager.size + 1, self.pickle.manager.size + 1 + self.operation_value)]))
-                self.pickle.manager.size  = self.pickle.manager.size + int(self.operation_value)
-                print("creating parking lot with %s slots" %
+                self.pickle.manager.empty = self.pickle.manager.empty.union(set([x for x in range(
+                    self.pickle.manager.size + 1, self.pickle.manager.size + 1 + self.operation_value)]))  # NOQA
+                self.pickle.manager.size = self.pickle.manager.size + int(self.operation_value)
+                print("creating parking plot with %s slots" %
                       len(self.pickle.manager.empty))
                 self.__dump_data_to_pickle__
             else:
                 self.pikcle = None
                 self.manager = ParkingLotManager(**{'size': int(self.operation_value),
                                                     'empty': set(range(1,
-                                                                       int(self.operation_value) + 1)),
-                                                    'consumed': set()})
-                print("creating parking lot with %s slots" %
+                                                                       int(self.operation_value) + 1)),  # NOQA
+                                                    'consumed': set()})  # NOQA
+                print("creating parking plot with %s slots" %
                       (int(self.operation_value)))
                 self.__dump_data_to_pickle__
         elif self.pickle is not None:
@@ -261,7 +262,8 @@ class ParkingLotManager:
             else:
                 continue
         if len(registration_numbers) > 0:
-            print("Car with this registeration number already exists %s " % registration_numbers[0], sep=", ")
+            print("Car with this registeration number already exists %s " %
+                  registration_numbers[0], sep=", ")
             return 0
         else:
             return 1

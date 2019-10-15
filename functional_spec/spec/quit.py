@@ -5,8 +5,6 @@
 file used to give the leave command functionality
 for parking lot
 """
-
-import argparse
 from functional_spec.spec.setup import clear_tmp_file
 
 
